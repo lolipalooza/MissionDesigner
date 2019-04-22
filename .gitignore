@@ -1,0 +1,6 @@
+release
+src/*.cs
+src/*.s
+src/*.zip
+src/*.rar
+src/*.scm

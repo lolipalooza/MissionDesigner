@@ -1,0 +1,17 @@
+MSDESGN	Mission Designer
+MD_VER	v ~1~.~1~.~1~
+MD_VER1	v ~1~.~1~
+
+FNSH	Finish
+BACK	Back
+SYMB1	<
+SYMB2	>
+
+MSBUILD	Mision Builder
+INTDES	Interface Designer
+DIRMODE	Director Mode
+STCRTR	Storyline Creator
+
+IDOPT01	Create new interface
+IDOPT02	Load interface
+IDOPT03	Delete interface
