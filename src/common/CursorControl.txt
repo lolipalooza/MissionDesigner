@@ -107,12 +107,12 @@ end
 
 {======================================================================
 ======================================================================}
-:CursorClickCheck // box_position 0@ 1@ box_size 2@ 3@ disable_draw_box 4@
+:CursorClickCheck // box_position 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
 // 0@: corner 1 x-point
 // 1@: corner 1 y-point
 // 2@: corner 2 x-point
 // 3@: corner 2 y-point
-0AB1: @CursorPositionCheck 5 rectangle_center 0@ 1@ rectangle_size 2@ 3@ disable_draw_box 4@
+0AB1: @CursorPositionCheck 8 rectangle_center 0@ 1@ rectangle_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
 0AB1: @GetData 2 @CursorControlVars CC_CLICKX 12@
 0AB1: @GetData 2 @CursorControlVars CC_CLICKY 13@
 0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 0@ 1@ inferior_right_corner 2@ 3@
@@ -140,21 +140,18 @@ end
 
 {======================================================================
 ======================================================================}
-:CursorPositionCheck
-// Inputs: 0@ 1@: center of the box, 2@ 3@: size of the box, 4@: flag disable box, 5@/6@/7@/8@: rgba
-if 8@ == 0
-then 8@ = 100
-end
+:CursorPositionCheck // Inputs: box_center 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
 0AB1: @GetData 2 @CursorControlVars CC_POSX 20@
 0AB1: @GetData 2 @CursorControlVars CC_POSY 21@
 0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 10@ 11@ inferior_right_corner 12@ 13@
 if and
-4@ == 0
 0035:   20@ >= 10@  // (float)
 0035:   12@ >= 20@  // (float)
 0035:   21@ >= 11@  // (float)
 0035:   13@ >= 21@  // (float)
-then 038E: draw_box_position 0@ 1@ size 2@ 3@ RGBA 5@ 6@ 7@ 8@
+then
+    03E3: set_texture_to_be_drawn_antialiased 1
+    038E: draw_box_position 0@ 1@ size 2@ 3@ RGBA 4@ 5@ 6@ 7@
 end
 0AB2: ret 0
 

@@ -36,11 +36,17 @@ $ONMISSION = 1
 repeat
 wait 0
     
+    0AB1: @CursorControl 0
+    
     if gosub @DesignerMachine
     then break
     end
     
 until false
+
+repeat
+wait 0
+until 80E1:   not player 0 pressed_key 15 and 80E1:   not player 0 pressed_key 17
 
 // Finalize
 0581: enable_radar 1
@@ -66,12 +72,42 @@ end
 
 if 10@ == 0
 then
-    0AB1: @ShowMainMenu 0
-    0AB1: @CursorControl 0
+    0AB1: @MainMenu_Show 0 ret clicked_button 11@
     
-    if 00E1:   player 0 pressed_key 15 // F
+    // :MainMenu_Control
+    if 11@ == 1
+    then 0AD0: show_formatted_text_lowpriority "Mision Builder. Not ready yet..." time 750
+    end
+    if 11@ == 2
+    then 0AD0: show_formatted_text_lowpriority "Interface Designer. Not ready yet..." time 750 //10@ = 2 // Interface Designer Menu
+    end
+    if 11@ == 3
+    then 0AD0: show_formatted_text_lowpriority "Director Mode. Not ready yet..." time 750
+    end
+    if 11@ == 4
+    then 0AD0: show_formatted_text_lowpriority "Storyline Creator. Not ready yet..." time 750
+    end
+    if or
+        11@ == 5
+        00E1:   player 0 pressed_key 15 // F
     then 0485:  return_true
     end
+end
+
+if 10@ == 1 // Mission Builder Menu
+then
+end
+
+if 10@ == 2 // Interface Designer Menu
+then 0AB1: @InterfaceDesignerMenu_Show 0 ret clicked_button 11@    
+end
+
+if 10@ == 3 // Director Mode Menu
+then
+end
+
+if 10@ == 4 // Storyline Creator Menu
+then
 end
 
 0AB1: @StoreInt 2 @MainStat 10@
@@ -79,7 +115,7 @@ return
 
 {======================================================================
 ======================================================================}
-:ShowMainMenu
+:MainMenu_Show
 //0AB1: @SetDrawText // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_number 8@ number 9@ center 10@ center_linewidth 11@ align_right 12@ enable_outline 13@ outline 14@ outline_rgba 15@ 16@ 17@ 18@ customize_rgba 19@ rgba 20@ 21@ 22@ 23@ customize_shadow 24@ shadow_size 25@ shadow_rgba 26@ 27@ 28@ 29@ background 30@
 
 10@s = 'MSDESGN' // Mission Designer
@@ -89,7 +125,7 @@ return
 0AB1: @SetDrawText 10 font 1 linewidth 600.0 position 190.0 184.0 size 0.3 1.2 gxt 10@ 11@ use_number 1 number 9@
 
 10@s = 'FNSH' // Finish
-0AB1: @SetDrawText 8 font 2 linewidth 600.0 position 106.0 219.0 size 0.5 1.7 gxt 10@ 11@
+0AB1: @SetDrawText 8 font 2 linewidth 600.0 position 123.0 136.0 size 0.3 1.2 gxt 10@ 11@
 
 10@s = 'MSBUILD' // Mision Builder
 0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 45.0 26.0 size 0.3 1.0 gxt 10@ 11@
@@ -116,4 +152,21 @@ return
 03E3: set_texture_to_be_drawn_antialiased 1
 038E: draw_box_position 140.0 148.0 size 269.0 5.0 RGBA 255 0 0 140
 
-0AB2: ret 0
+// Control
+if 0AB1: @CursorClickCheck 8 box_position 98.0 31.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Mision Builder
+then 0AB2: ret 1 clicked_button 1
+end
+if 0AB1: @CursorClickCheck 8 box_position 98.0 55.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Interface Designer
+then 0AB2: ret 1 clicked_button 2
+end
+if 0AB1: @CursorClickCheck 8 box_position 98.0 80.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Director Mode
+then 0AB2: ret 1 clicked_button 3
+end
+if 0AB1: @CursorClickCheck 8 box_position 98.0 107.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Storyline Creator
+then 0AB2: ret 1 clicked_button 4
+end
+if 0AB1: @CursorClickCheck 8 box_position 127.0 143.0 box_size 100.0 24.0 hover_rgba 22 85 145 120 // Finish
+then 0AB2: ret 1 clicked_button 5
+end
+
+0AB2: ret 1 clicked_button 0
