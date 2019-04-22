@@ -1,4 +1,127 @@
 {======================================================================
 ======================================================================}
 :InterfaceDesignerMenu_Show
+// Title
+10@s = 'INTDES' // Interface Designer
+0AB1: @SetDrawText 8 font 3 linewidth 600.0 position 15.0 166.0 size 0.6 1.7 gxt 10@ 11@
+
+// Options
+10@s = 'IDOPT01' // Create new interface
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 28.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT02' // Load interface
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 50.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT03' // Delete interface
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 72.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'SYMB1' // <
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 8.0 214.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'BACK' // Back
+0AB1: @SetDrawText 8 font 2 linewidth 600.0 position 119.0 213.0 size 0.3 1.2 gxt 10@ 11@
+
+// Decorative boxes
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 92.0 102.0 size 140.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 87.0 102.0 size 130.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 82.0 102.0 size 120.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 77.0 102.0 size 110.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 92.0 18.0 size 173.0 5.0 RGBA 255 0 50 175
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 101.0 176.0 size 202.0 26.0 RGBA 255 0 50 120
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 106.0 170.0 size 212.0 14.0 RGBA 255 0 50 120
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 81.0 220.0 size 162.0 22.0 RGBA 255 0 50 120
+
+// Control
+if 0AB1: @CursorClickCheck 8 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 22 85 145 120 // Back
+then 0AB2: ret 1 clicked_button 1
+end
+if 0AB1: @CursorClickCheck 8 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 22 85 145 120 // <
+then 0AB2: ret 1 clicked_button 2
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Create new interface
+then 0AB2: ret 1 clicked_button 3
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Load interface
+then 0AB2: ret 1 clicked_button 4
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Delete interface
+then 0AB2: ret 1 clicked_button 5
+end
+
+0AB2: ret 1 clicked_button 0
+
+{======================================================================
+======================================================================}
+:CreateInterfaceMenu_Show
+
+// Title
+10@s = 'IDOPT10' // Create interface
+0AB1: @SetDrawText 8 font 3 linewidth 600.0 position 15.0 166.0 size 0.6 1.7 gxt 10@ 11@
+
+// Options
+10@s = 'IDOPT04' // New box/texture
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 28.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT05' // New text
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 50.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT06' // New button
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 72.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT07' // New array
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 94.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT08' // Save
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 116.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'IDOPT09' // Export plain text
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 32.0 138.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'SYMB1' // <
+0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 8.0 214.0 size 0.3 1.2 gxt 10@ 11@
+10@s = 'BACK' // Back
+0AB1: @SetDrawText 8 font 2 linewidth 600.0 position 119.0 213.0 size 0.3 1.2 gxt 10@ 11@
+
+// Decorative boxes
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 92.0 102.0 size 140.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 87.0 102.0 size 130.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 82.0 102.0 size 120.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 77.0 102.0 size 110.0 204.0 RGBA 0 0 0 100
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 92.0 18.0 size 173.0 5.0 RGBA 255 0 50 175
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 101.0 176.0 size 202.0 26.0 RGBA 255 0 50 120
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 106.0 170.0 size 212.0 14.0 RGBA 255 0 50 120
+03E3: set_texture_to_be_drawn_antialiased 1
+038E: draw_box_position 81.0 220.0 size 162.0 22.0 RGBA 255 0 50 120
+
+// Control
+if 0AB1: @CursorClickCheck 8 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 22 85 145 120 // Back
+then 0AB2: ret 1 clicked_button 1
+end
+if 0AB1: @CursorClickCheck 8 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 22 85 145 120 // <
+then 0AB2: ret 1 clicked_button 2
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New box/texture
+then 0AB2: ret 1 clicked_button 3
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New text
+then 0AB2: ret 1 clicked_button 4
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New button
+then 0AB2: ret 1 clicked_button 5
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 101.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New array
+then 0AB2: ret 1 clicked_button 6
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 123.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Save
+then 0AB2: ret 1 clicked_button 7
+end
+if 0AB1: @CursorClickCheck 8 box_position 91.0 145.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Export plain text
+then 0AB2: ret 1 clicked_button 8
+end
+
 0AB2: ret 1 clicked_button 0

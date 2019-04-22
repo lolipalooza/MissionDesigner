@@ -15,3 +15,11 @@ STCRTR	Storyline Creator
 IDOPT01	Create new interface
 IDOPT02	Load interface
 IDOPT03	Delete interface
+
+IDOPT04	New box/texture
+IDOPT05	New text
+IDOPT06	New button
+IDOPT07	New array
+IDOPT08	Save
+IDOPT09	Export plain text
+IDOPT10	Create interface
