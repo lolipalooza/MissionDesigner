@@ -4,7 +4,7 @@
 thread 'MisDesigner'
 
 // Change version here
-0ADF: add_dynamic_GXT_entry "MDVERX" text "v 0.1.0"
+0ADF: add_dynamic_GXT_entry "MDVERX" text "v 0.1.1"
 
 gosub @DesignerMain
 0A93: end_custom_thread
@@ -17,10 +17,13 @@ end
 
 {======================================================================
 ======================================================================}
+// Common
 {$I common/common.txt}
 {$I common/CursorControl.txt}
 
+// Interface Designer
 {$I InterfaceDesigner/InterfaceDesigner.txt}
+{$I InterfaceDesigner/DrawnTexts.txt}
 
 {======================================================================
 ======================================================================}
@@ -75,7 +78,7 @@ end
 if 10@ == 0
 then
     0AB1: @MainMenu_Show 0 ret clicked_button 11@
-    
+
     // :MainMenu_Control
     if 11@ == 1
     then 0AD0: show_formatted_text_lowpriority "Mision Builder. Not ready yet..." time 750
@@ -105,6 +108,7 @@ end
 if 10@ == 2 // Interface Designer Menu
 then
     0AB1: @InterfaceDesignerMenu_Show 0 ret clicked_button 11@    
+    0AB1: @DisplayDrawnTexts 0
     
     // :InterfaceDesignerMenu_Control
     if 11@ == 2
@@ -144,6 +148,7 @@ end
 if 10@ == 5 // Create interface Menu
 then
     0AB1: @CreateInterfaceMenu_Show 0 ret clicked_button 11@    
+    0AB1: @DisplayDrawnTexts 0
     
     // :CreateInterfaceMenu_Control
     if 11@ == 2
@@ -153,7 +158,9 @@ then
     then 0AD0: show_formatted_text_lowpriority "New box/texture. Not ready yet..." time 750
     end
     if 11@ == 4
-    then 0AD0: show_formatted_text_lowpriority "New text. Not ready yet..." time 750
+    then //0AD0: show_formatted_text_lowpriority "New text. Not ready yet..." time 750
+        0AB1: @CreateNewText 0
+        0AB1: @DEBUG_DumpTextsMemory 0
     end
     if 11@ == 5
     then 0AD0: show_formatted_text_lowpriority "New button. Not ready yet..." time 750
@@ -178,36 +185,38 @@ then
     end
 end
 
+if 10@ == 99 // Dummy state (does nothing but prevents falses "return_true")
+then
+end
+
 0AB1: @StoreInt 2 @MainStat 10@
 return
 
 {======================================================================
 ======================================================================}
 :MainMenu_Show
-//0AB1: @SetDrawText // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_number 8@ number 9@ center 10@ center_linewidth 11@ align_right 12@ enable_outline 13@ outline 14@ outline_rgba 15@ 16@ 17@ 18@ customize_rgba 19@ rgba 20@ 21@ 22@ 23@ customize_shadow 24@ shadow_size 25@ shadow_rgba 26@ 27@ 28@ 29@ background 30@
-
 // Title
 10@s = 'MSDESGN' // Mission Designer
-0AB1: @SetDrawText 8 font 0 linewidth 600.0 position 24.0 195.0 size 0.8 2.7 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 0 linewidth 600.0 position 24.0 195.0 size 0.8 2.7 gxt 10@ 11@
 
 10@s = 'MDVERX' // v ~1~.~1~
-0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 190.0 214.0 size 0.3 1.2 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 190.0 214.0 size 0.3 1.2 gxt 10@ 11@
 
 // Options
 10@s = 'MSBUILD' // Mision Builder
-0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 45.0 26.0 size 0.3 1.0 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 45.0 26.0 size 0.3 1.0 gxt 10@ 11@
 
 10@s = 'INTDES' // Interface Designer
-0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 45.0 50.0 size 0.3 1.0 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 45.0 50.0 size 0.3 1.0 gxt 10@ 11@
 
 10@s = 'DIRMODE' // Director Mode
-0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 45.0 75.0 size 0.3 1.0 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 45.0 75.0 size 0.3 1.0 gxt 10@ 11@
 
 10@s = 'STCRTR' // Storyline Creator
-0AB1: @SetDrawText 8 font 1 linewidth 600.0 position 45.0 101.0 size 0.3 1.0 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 45.0 101.0 size 0.3 1.0 gxt 10@ 11@
 
 10@s = 'FNSH' // Finish
-0AB1: @SetDrawText 8 font 2 linewidth 600.0 position 123.0 136.0 size 0.3 1.2 gxt 10@ 11@
+0AB1: @SetDrawText 9 behind_textures 1 font 2 linewidth 600.0 position 123.0 136.0 size 0.3 1.2 gxt 10@ 11@
 
 // The box is nothing more than a texture, the antialiased textures show always behind texts
 // and the not antialiased textures only show above texts if texts are commanded to through the opcode 03E0: draw_text_behind_textures 1

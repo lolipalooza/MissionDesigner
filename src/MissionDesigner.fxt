@@ -6,6 +6,7 @@ FNSH	Finish
 BACK	Back
 SYMB1	<
 SYMB2	>
+SYMB3	-
 
 MSBUILD	Mision Builder
 INTDES	Interface Designer
@@ -23,3 +24,5 @@ IDOPT07	New array
 IDOPT08	Save
 IDOPT09	Export plain text
 IDOPT10	Create interface
+
+NEWTEXT	New text

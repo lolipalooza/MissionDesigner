@@ -1,12 +1,12 @@
 {======================================================================
 ======================================================================}
-:GetData // 0@: label, 1@: offset for address
+:GetData // label 0@ offset 1@
 0AC6: 10@ = label 0@ offset
 005A: 10@ += 1@  // (int)
 0A8D: 11@ = read_memory 10@ size 4 virtual_protect 0
-0AB2: ret 1 11@
+0AB2: ret 1 value 11@
 
-:StoreData // 0@: label, 1@: value, 2@: offset for address
+:StoreData // label 0@ value 1@ offset 2@
 0AC6: 10@ = label 0@ offset
 005A: 10@ += 2@  // (int)
 0A8C: write_memory 10@ size 4 value 1@ virtual_protect 0
@@ -14,13 +14,13 @@
 
 {======================================================================
 ======================================================================}
-:GetInt // 0@: label, 1@: offset for address
+:GetInt // label 0@ offset 1@
 0AC6: 10@ = label 0@ offset
 005A: 10@ += 1@  // (int)
 0A8D: 11@ = read_memory 10@ size 1 virtual_protect 0
-0AB2: ret 1 11@
+0AB2: ret 1 value 11@
 
-:StoreInt // 0@: label, 1@: value, 2@: offset for address
+:StoreInt // label 0@ value 1@ offset 2@
 0AC6: 10@ = label 0@ offset
 005A: 10@ += 2@  // (int)
 0A8C: write_memory 10@ size 1 value 1@ virtual_protect 0
@@ -28,33 +28,112 @@
 
 {======================================================================
 ======================================================================}
-:SetDrawText // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_number 8@ number 9@ center 10@ center_linewidth 11@ align_right 12@ enable_outline 13@ outline 14@ outline_rgba 15@ 16@ 17@ 18@ customize_rgba 19@ rgba 20@ 21@ 22@ 23@ customize_shadow 24@ shadow_size 25@ shadow_rgba 26@ 27@ 28@ 29@ background 30@
+:GetData_IncOffset // label 0@ offset 1@
+0AC6: 10@ = label 0@ offset
+005A: 10@ += 1@  // (int)
+0A8D: 11@ = read_memory 10@ size 4 virtual_protect 0
+1@ += 4
+0AB2: ret 2 value 11@ increased_offset 1@
+
+:StoreData_IncOffset // label 0@ value 1@ offset 2@
+0AC6: 10@ = label 0@ offset
+005A: 10@ += 2@  // (int)
+0A8C: write_memory 10@ size 4 value 1@ virtual_protect 0
+2@ += 4
+0AB2: ret 1 increased_offset 2@
+
+:GetInt_IncOffset // label 0@ offset 1@
+0AC6: 10@ = label 0@ offset
+005A: 10@ += 1@  // (int)
+0A8D: 11@ = read_memory 10@ size 1 virtual_protect 0
+1@ += 1
+0AB2: ret 2 value 11@ increased_offset 1@
+
+:StoreInt_IncOffset // label 0@ value 1@ offset 2@
+0AC6: 10@ = label 0@ offset
+005A: 10@ += 2@  // (int)
+0A8C: write_memory 10@ size 1 value 1@ virtual_protect 0
+2@ += 1
+0AB2: ret 1 increased_offset 2@
+
+{======================================================================
+======================================================================}
+:SetDrawText // behind_textures 0@ font 1@ linewidth 2@ position 3@ 4@ size 5@ 6@ gxt 7@ 8@ use_numbers 9@ numbers 10@ 11@ center_flag 12@ center_linewidth 13@ align_right 14@ customize_rgba 15@ font_rgba 16@ 17@ 18@ 19@
+03E0: draw_text_behind_textures 0@
+if 15@ == 1
+then 0340: set_text_draw_RGBA 16@ 17@ 18@ 19@
+else 0340: set_text_draw_RGBA 255 255 255 255
+end
+0349: set_text_draw_font 1@
+if 12@ == 1
+then
+    0342: set_text_draw_centered 1
+    0344: set_text_draw_linewidth 13@ for_centered_text
+else 0343: set_text_draw_linewidth 2@
+end
+033F: set_text_draw_letter_size 5@ 6@
+03E4: set_text_draw_align_right 14@
+if 9@ == 0
+then 033E: set_draw_text_position 3@ 4@ GXT 7@s
+end
+if 9@ == 1
+then 045A: draw_text_1number 3@ 4@ GXT 7@s number 10@
+end
+if 9@ == 2
+then 045B: draw_text_2numbers 3@ 4@ GXT 7@s numbers 10@ 11@
+end
+0AB2: ret 0
+
+{======================================================================
+======================================================================}
+:SetDrawText_Extra // enable_outline 0@ outline 1@ outline_rgba 2@ 3@ 4@ 5@ customize_shadow 6@ shadow_size 7@ shadow_rgba 8@ 9@ 10@ 11@ justify 12@ proportional 13@ background 14@
+if 0@ == 1
+then 081C: draw_text_outline 1@ RGBA 2@ 3@ 4@ 5@
+else 081C: draw_text_outline 0 RGBA 0 0 0 255
+end
+if 6@ == 1
+then 060D: draw_text_shadow 7@ rgba 8@ 9@ 10@ 11@
+else 060D: draw_text_shadow 2 rgba 0 0 0 255
+end
+0341: set_text_draw_align_justify 12@
+0348: enable_text_draw_proportional 13@
+0345: enable_text_draw_background 14@
+0AB2: ret 0
+
+{======================================================================
+======================================================================}
+:SetDrawText2 // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_numbers 8@ numbers 9@ 10@ center 11@ center_linewidth 12@ align_right 13@ enable_outline 14@ outline 15@ outline_rgba 16@ 17@ 18@ 19@ customize_rgba 20@ rgba 21@ 22@ 23@ 24@ customize_shadow 25@ shadow_size 26@ shadow_rgba 27@ 28@ 29@ 30@ background 30@
 03E0: draw_text_behind_textures 1
-0345: enable_text_draw_background 30@
-if 19@ == 1
-then 0340: set_text_draw_RGBA 20@ 21@ 22@ 23@
+0345: enable_text_draw_background 31@
+if 20@ == 1
+then 0340: set_text_draw_RGBA 21@ 22@ 23@ 24@
 else 0340: set_text_draw_RGBA 255 255 255 255
 end
 0349: set_text_draw_font 0@
-if 10@ == 1
+if 11@ == 1
 then
     0342: set_text_draw_centered 1
-    0344: set_text_draw_linewidth 11@ for_centered_text
+    0344: set_text_draw_linewidth 12@ for_centered_text
 else 0343: set_text_draw_linewidth 1@
 end
 033F: set_text_draw_letter_size 4@ 5@
-03E4: set_text_draw_align_right 12@
-if 13@ == 1
-then 081C: draw_text_outline 14@ RGBA 15@ 16@ 17@ 18@
+03E4: set_text_draw_align_right 13@
+if 14@ == 1
+then 081C: draw_text_outline 15@ RGBA 16@ 17@ 18@ 19@
 else 081C: draw_text_outline 0 RGBA 0 0 0 255
 end
-if 24@ == 1
-then 060D: draw_text_shadow 25@ rgba 26@ 27@ 28@ 29@
+if 25@ == 1
+then 060D: draw_text_shadow 26@ rgba 27@ 28@ 29@ 30@
 else 060D: draw_text_shadow 2 rgba 0 0 0 255
+end
+if 8@ == 0
+then 033E: set_draw_text_position 2@ 3@ GXT 6@s
 end
 if 8@ == 1
 then 045A: draw_text_1number 2@ 3@ GXT 6@s number 9@
-else 033E: set_draw_text_position 2@ 3@ GXT 6@s
+end
+if 8@ == 2
+then 045B: draw_text_2numbers 2@ 3@ GXT 6@s numbers 9@ 10@
 end
 0AB2: ret 0
 
