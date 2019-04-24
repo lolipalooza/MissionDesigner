@@ -118,42 +118,41 @@ end
 12@s = 'NEWTEXT'
 0AB1: @GetEmptySpace 0 ret index 10@
 0AB1: @GetOffsetFromIndex 1 index 10@ ret 11@
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // behind_textures
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // font
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 600.0 offset 11@ ret 11@ // linewidth
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 462.0 offset 11@ ret 11@ // position x
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  26.0 offset 11@ ret 11@ // position y
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0.3 offset 11@ ret 11@ // size x
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   1.3 offset 11@ ret 11@ // size y
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  12@  offset 11@ ret 11@ // gxt 1
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  13@  offset 11@ ret 11@ // gxt 2
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // use_numbers
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 1
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 2
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // center_flag
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // center_linewidth
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // align_right
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // enable_outline
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_size
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_red
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_green
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_blue
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // outline_alpha
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_red
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_green
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_blue
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_alpha
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // customize_rgba_flag
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // justify
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // customize_shadow
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_size
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_red
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_green
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_blue
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // shadow_alpha
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // proportional
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // background
-
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // behind_textures        flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // font                   select
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 600.0 offset 11@ ret 11@ // linewidth              float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 462.0 offset 11@ ret 11@ // position x             float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  26.0 offset 11@ ret 11@ // position y             float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0.3 offset 11@ ret 11@ // size x                 float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   1.3 offset 11@ ret 11@ // size y                 float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  12@  offset 11@ ret 11@ // gxt 1                  s_str
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value  13@  offset 11@ ret 11@ // gxt 2                  s_str
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // use_numbers            select
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 1               int32
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 2               int32
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // center_flag            flag
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 600.0 offset 11@ ret 11@ // center_linewidth       float
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // align_right            flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // enable_outline         flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_size           int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_red            int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_green          int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_blue           int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // outline_alpha          int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_red               int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_green             int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_blue              int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // font_alpha             int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // customize_rgba_flag    flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // justify                flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // customize_shadow       flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   2   offset 11@ ret 11@ // shadow_size            int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_red             int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_green           int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // shadow_blue            int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value  255  offset 11@ ret 11@ // shadow_alpha           int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // proportional           flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // background             flag
 0AB2: ret 0
 
 {======================================================================

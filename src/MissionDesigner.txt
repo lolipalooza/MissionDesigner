@@ -160,7 +160,7 @@ then
     if 11@ == 4
     then //0AD0: show_formatted_text_lowpriority "New text. Not ready yet..." time 750
         0AB1: @CreateNewText 0
-        0AB1: @DEBUG_DumpTextsMemory 0
+        //0AB1: @DEBUG_DumpTextsMemory 0
     end
     if 11@ == 5
     then 0AD0: show_formatted_text_lowpriority "New button. Not ready yet..." time 750
