@@ -36,19 +36,19 @@
 038E: draw_box_position 81.0 220.0 size 162.0 22.0 RGBA 255 0 50 120
 
 // Control
-if 0AB1: @CursorClickCheck 8 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 119 8 34 120 // Back
+if 0AB1: @CursorClickCheck 9 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 119 8 34 120 item_offset 0 // Back
 then 0AB2: ret 1 clicked_button 1
 end
-if 0AB1: @CursorClickCheck 8 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 119 8 34 120 // <
+if 0AB1: @CursorClickCheck 9 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 119 8 34 120 item_offset 1 // <
 then 0AB2: ret 1 clicked_button 2
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Create new interface
+if 0AB1: @CursorClickCheck 9 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 2 // Create new interface
 then 0AB2: ret 1 clicked_button 3
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Load interface
+if 0AB1: @CursorClickCheck 9 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 3 // Load interface
 then 0AB2: ret 1 clicked_button 4
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Delete interface
+if 0AB1: @CursorClickCheck 9 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 4 // Delete interface
 then 0AB2: ret 1 clicked_button 5
 end
 
@@ -99,28 +99,28 @@ end
 038E: draw_box_position 81.0 220.0 size 162.0 22.0 RGBA 255 0 50 120
 
 // Control
-if 0AB1: @CursorClickCheck 8 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 119 8 34 120 // Back
+if 0AB1: @CursorClickCheck 9 box_position 134.0 220.0 box_size 50.0 18.0 hover_rgba 119 8 34 120 item_offset 0 // Back
 then 0AB2: ret 1 clicked_button 1
 end
-if 0AB1: @CursorClickCheck 8 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 119 8 34 120 // <
+if 0AB1: @CursorClickCheck 9 box_position 14.0 220.0 box_size 24.0 18.0 hover_rgba 119 8 34 120 item_offset 1 // <
 then 0AB2: ret 1 clicked_button 2
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New box/texture
+if 0AB1: @CursorClickCheck 9 box_position 91.0 35.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 2 // New box/texture
 then 0AB2: ret 1 clicked_button 3
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New text
+if 0AB1: @CursorClickCheck 9 box_position 91.0 57.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 3 // New text
 then 0AB2: ret 1 clicked_button 4
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New button
+if 0AB1: @CursorClickCheck 9 box_position 91.0 79.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 4 // New button
 then 0AB2: ret 1 clicked_button 5
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 101.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // New array
+if 0AB1: @CursorClickCheck 9 box_position 91.0 101.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 5 // New array
 then 0AB2: ret 1 clicked_button 6
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 123.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Save
+if 0AB1: @CursorClickCheck 9 box_position 91.0 123.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 6 // Save
 then 0AB2: ret 1 clicked_button 7
 end
-if 0AB1: @CursorClickCheck 8 box_position 91.0 145.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 // Export plain text
+if 0AB1: @CursorClickCheck 9 box_position 91.0 145.0 box_size 122.0 16.0 hover_rgba 22 85 145 120 item_offset 7 // Export plain text
 then 0AB2: ret 1 clicked_button 8
 end
 

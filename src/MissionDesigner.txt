@@ -109,6 +109,7 @@ if 10@ == 2 // Interface Designer Menu
 then
     0AB1: @InterfaceDesignerMenu_Show 0 ret clicked_button 11@    
     0AB1: @DisplayDrawnTexts 0
+    0AB1: @DisplayEditTextMenu 0
     
     // :InterfaceDesignerMenu_Control
     if 11@ == 2
@@ -148,6 +149,7 @@ end
 if 10@ == 5 // Create interface Menu
 then
     0AB1: @CreateInterfaceMenu_Show 0 ret clicked_button 11@    
+    0AB1: @DisplayEditTextMenu 0
     0AB1: @DisplayDrawnTexts 0
     
     // :CreateInterfaceMenu_Control
@@ -182,6 +184,7 @@ then
         wait 0
         until 80E1:   not player 0 pressed_key 15 // F
         10@ = 2 // Return to Interface Designer Menu
+        0AB1: @StoreInt 3 label @DrawnTextInUse value 0xFF offset 0 // Exit edit mode
     end
 end
 
@@ -241,20 +244,21 @@ return
 038E: draw_box_position 129.0 205.0 size 226.0 33.0 RGBA 255 0 50 120
 
 // Control
-if 0AB1: @CursorClickCheck 8 box_position 98.0 31.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Mision Builder
+if 0AB1: @CursorClickCheck 9 box_position 98.0 31.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 item_offset 0 // Mision Builder
 then 0AB2: ret 1 clicked_button 1
 end
-if 0AB1: @CursorClickCheck 8 box_position 98.0 55.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Interface Designer
+if 0AB1: @CursorClickCheck 9 box_position 98.0 55.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 item_offset 1 // Interface Designer
 then 0AB2: ret 1 clicked_button 2
 end
-if 0AB1: @CursorClickCheck 8 box_position 98.0 80.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Director Mode
+if 0AB1: @CursorClickCheck 9 box_position 98.0 80.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 item_offset 2 // Director Mode
 then 0AB2: ret 1 clicked_button 3
 end
-if 0AB1: @CursorClickCheck 8 box_position 98.0 107.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 // Storyline Creator
+if 0AB1: @CursorClickCheck 9 box_position 98.0 107.0 box_size 140.0 16.0 hover_rgba 22 85 145 120 item_offset 3 // Storyline Creator
 then 0AB2: ret 1 clicked_button 4
 end
-if 0AB1: @CursorClickCheck 8 box_position 127.0 143.0 box_size 100.0 24.0 hover_rgba 22 85 145 120 // Finish
+if 0AB1: @CursorClickCheck 9 box_position 127.0 143.0 box_size 100.0 24.0 hover_rgba 22 85 145 120 item_offset 4 // Finish
 then 0AB2: ret 1 clicked_button 5
 end
 
 0AB2: ret 1 clicked_button 0
+

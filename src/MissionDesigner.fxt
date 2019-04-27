@@ -7,6 +7,9 @@ BACK	Back
 SYMB1	<
 SYMB2	>
 SYMB3	-
+SYMB4	X
+INTNM	~1~
+FLOAT	~1~.~1~
 
 MSBUILD	Mision Builder
 INTDES	Interface Designer
@@ -24,5 +27,24 @@ IDOPT07	New array
 IDOPT08	Save
 IDOPT09	Export plain text
 IDOPT10	Create interface
+IDOPT11	Drawn Text Editor
 
 NEWTEXT	New text
+
+EDTXT01	Centered
+EDTXT02	Align right
+EDTXT03	Justify
+EDTXT04	Linewidth: ~1~.~1~
+EDTXT05	Use outline
+EDTXT06	Outline: ~1~
+EDTXT07	Outline rgba
+EDTXT08	Background
+EDTXT09	Pos X
+EDTXT10	Pos Y
+EDTXT11	Width
+EDTXT12	Height
+EDTXT13	Gxt: NEWTEXT
+EDTXT14	Use numbers
+EDTXT15	Font RGBA
+EDTXT16	Proportional
+EDTXT17	Delete

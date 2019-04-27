@@ -1,14 +1,23 @@
 {======================================================================
 ======================================================================}
 const
-    CC_POSX = 0
-    CC_POSY = 4
+    CC_POSX   = 0
+    CC_POSY   = 4
     CC_CLICKX = 8
     CC_CLICKY = 12
-    CC_CFLAG = 16
+    CC_CFLAG  = 16
+    CC_HOLD  = 20 // not used
+    CC_ICON   = 24
     
     CC_SIZE_X = 12.0
     CC_SIZE_Y = 12.0
+
+    // cursor icons
+    CURSOR_ARROW  = 1
+    CURSOR_HAND   = 2
+    CURSOR_MOVE   = 3
+    CURSOR_SIZE_X = 4
+    CURSOR_SIZE_Y = 5
 end
 
 :CursorControl_FlagShowCursor
@@ -23,6 +32,23 @@ hex
     00 00 00 00 // X clicked
     00 00 00 00 // Y clicked
     00 00 00 00 // click flag
+    00 00 00 00 // hold flag
+    00          // icon id
+end
+
+:CursorControl_Buttons
+hex
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
+    00 00 00 00 00      00 00 00 00 00      00 00 00 00 00      00 00 00 00 00
 end
 
 {======================================================================
@@ -30,9 +56,14 @@ end
 :InitCursorControl // call it once at begining
 0390: load_txd_dictionary 'ftend'
 038F: load_texture "smouse" as 1
-03E0: draw_text_behind_textures 1
+038F: load_texture "shand" as 2
+038F: load_texture "smove" as 3
+038F: load_texture "sizex" as 4
+038F: load_texture "sizey" as 5
+//03E0: draw_text_behind_textures 1
 0AB1: @StoreData 3 @CursorControlVars 320.0 CC_POSX
 0AB1: @StoreData 3 @CursorControlVars 224.0 CC_POSY
+0AB1: @StoreInt 3 @CursorControlVars 1 CC_ICON
 0AB2: ret 0
 
 {======================================================================
@@ -67,7 +98,8 @@ end
 0AB1: @GetInt 1 @CursorControl_FlagShowCursor 31@
 if 31@ == 1
 then
-074B: draw_texture 1 position 10@ 11@ scale 10.0 -10.0 angle 0.0 color_RGBA 255 255 255 255
+0AB1: @GetInt 2 @CursorControlVars CC_ICON ret 8@
+074B: draw_texture 8@ position 10@ 11@ scale 10.0 -10.0 angle 0.0 color_RGBA 255 255 255 255
 //038D: draw_texture 1 position 10@ 11@ size 12.0 12.0 RGBA 255 255 255 255
 end
 0AB1: @StoreData 3 @CursorControlVars 12@ CC_POSX
@@ -107,12 +139,12 @@ end
 
 {======================================================================
 ======================================================================}
-:CursorClickCheck // box_position 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
+:CursorClickCheck // box_position 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@ item_offset 8@ hover_icon 9@ click_outside 10@
 // 0@: corner 1 x-point
 // 1@: corner 1 y-point
 // 2@: corner 2 x-point
 // 3@: corner 2 y-point
-0AB1: @CursorPositionCheck 8 rectangle_center 0@ 1@ rectangle_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
+0AB1: @CursorPositionCheck 10 rectangle_center 0@ 1@ rectangle_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@ item_offset 8@ hover_icon 9@
 0AB1: @GetData 2 @CursorControlVars CC_CLICKX 12@
 0AB1: @GetData 2 @CursorControlVars CC_CLICKY 13@
 0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 0@ 1@ inferior_right_corner 2@ 3@
@@ -123,6 +155,21 @@ if or
 80E1:   not player 0 pressed_key PAD_FIREWEAPON // CLICK
 then
     059A:  return_false
+    0AB2: ret 0
+end
+
+if 10@ == 1 // click_outside
+then
+    if or
+    0025:   0@ > 12@  // (float)
+    0025:   12@ > 2@  // (float)
+    0025:   1@ > 13@  // (float)
+    0025:   13@ > 3@  // (float)
+    then
+        0485:  return_true
+        0AB1: @StoreData 3 @CursorControlVars 1 CC_CFLAG
+    else 059A:  return_false
+    end
     0AB2: ret 0
 end
 
@@ -140,18 +187,34 @@ end
 
 {======================================================================
 ======================================================================}
-:CursorPositionCheck // Inputs: box_center 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@
+:CursorPositionCheck // Inputs: box_center 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@ item_offset 8@ hover_icon 9@
 0AB1: @GetData 2 @CursorControlVars CC_POSX 20@
 0AB1: @GetData 2 @CursorControlVars CC_POSY 21@
-0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 10@ 11@ inferior_right_corner 12@ 13@
+0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 22@ 23@ inferior_right_corner 24@ 25@
 if and
-0035:   20@ >= 10@  // (float)
-0035:   12@ >= 20@  // (float)
-0035:   21@ >= 11@  // (float)
-0035:   13@ >= 21@  // (float)
+0035:   20@ >= 22@  // (float)
+0035:   24@ >= 20@  // (float)
+0035:   21@ >= 23@  // (float)
+0035:   25@ >= 21@  // (float)
 then
+    if 9@ == 0
+    then 9@ = CURSOR_HAND // Default hover icon
+    end
+    0AB1: @StoreInt 3 @CursorControlVars 9@ CC_ICON
+    0AB1: @StoreInt 3 array_label @CursorControl_Buttons value 1 item_offset 8@
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 0@ 1@ size 2@ 3@ RGBA 4@ 5@ 6@ 7@
+else
+    0AB1: @StoreInt 3 array_label @CursorControl_Buttons value 0 item_offset 8@
+    for 8@ = 0 to 119
+        0AB1: @GetInt 2 array_label @CursorControl_Buttons item_offset 8@ ret 10@
+        if 10@ == 1
+        then break
+        end
+        if 8@ == 119
+        then 0AB1: @StoreInt 3 @CursorControlVars value CURSOR_ARROW offset CC_ICON
+        end
+    end
 end
 0AB2: ret 0
 
@@ -170,8 +233,44 @@ end
 
 {======================================================================
 ======================================================================}
+:SetCursorPosition // pos_x 0@ pos_y 1@
+0AB1: @StoreData 3 @CursorControlVars 0@ CC_POSX
+0AB1: @StoreData 3 @CursorControlVars 1@ CC_POSY
+0AB2: ret 0
+
+{======================================================================
+======================================================================}
 :WaitUntilReleaseClickButton // entries: none
 repeat
 wait 0
 until 80E1:   not player 0 pressed_key PAD_FIREWEAPON // CLICK
 return
+
+{======================================================================
+======================================================================}
+:CursorHoldCheck // box_position 0@ 1@ box_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@ item_offset 8@ hover_icon 9@
+// 0@: corner 1 x-point
+// 1@: corner 1 y-point
+// 2@: corner 2 x-point
+// 3@: corner 2 y-point
+0AB1: @CursorPositionCheck 10 rectangle_center 0@ 1@ rectangle_size 2@ 3@ hover_rgba 4@ 5@ 6@ 7@ item_offset 8@ hover_icon 9@
+0AB1: @GetData 2 @CursorControlVars CC_CLICKX 12@
+0AB1: @GetData 2 @CursorControlVars CC_CLICKY 13@
+0AB1: @CursorGetCorners 4 rectangle_center 0@ 1@ rectangle_size 2@ 3@ return_values superior_left_corner 0@ 1@ inferior_right_corner 2@ 3@
+
+if 80E1:   not player 0 pressed_key PAD_FIREWEAPON // CLICK
+then
+    059A:  return_false
+    0AB2: ret 0
+end
+if and
+0035:   12@ >= 0@  // (float)
+0035:   2@ >= 12@  // (float)
+0035:   13@ >= 1@  // (float)
+0035:   3@ >= 13@  // (float)
+then
+    0485:  return_true
+    0AB1: @StoreData 3 @CursorControlVars 1 CC_CFLAG
+else 059A:  return_false
+end
+0AB2: ret 0
