@@ -14,6 +14,21 @@ hex
 FF // Index of editing drawn text (-1 if none) (-1 is the same as 255)
 end
 
+:SubmenuInUse
+hex
+00
+end
+
+:TextInputCursor
+hex
+00
+end
+
+:GXT_String
+hex
+00 00 00 00 00 00 00 00
+end
+
 {======================================================================
 ======================================================================}
 :DrawnTextsSector
@@ -207,7 +222,7 @@ for 4@ = 0 to LAST_LINE
         0AB1: @GetDrawnTextData 2 part 2 index 4@ ret enable_outline 10@ outline 11@ outline_rgba 12@ 13@ 14@ 15@ customize_shadow 16@ shadow_size 17@ shadow_rgba 18@ 19@ 20@ 21@ justify 22@ proportional 23@ background 24@ dummy_values 25@ 25@ 25@ 25@ 25@
         0AB1: @SetDrawText_Extra        parameters 15           enable_outline 10@ outline 11@ outline_rgba 12@ 13@ 14@ 15@ customize_shadow 16@ shadow_size 17@ shadow_rgba 18@ 19@ 20@ 21@ justify 22@ proportional 23@ background 24@
         0AB1: @GetDrawnTextData 2 part 1 index 4@ ret behind_textures 10@ font 11@ linewidth 12@ position 13@ 14@ size 15@ 16@ gxt 17@ 18@ use_numbers 19@ numbers 20@ 21@ center_flag 22@ center_linewidth 23@ align_right 24@ customize_rgba 25@ font_rgba 26@ 27@ 28@ 29@
-        0AB1: @SetDrawText              parameters 20           behind_textures 10@ font 11@ linewidth 12@ position 13@ 14@ size 15@ 16@ gxt 17@ 18@ use_numbers 19@ numbers 20@ 21@ center_flag 22@ center_linewidth 23@ align_right 24@ customize_rgba 25@ font_rgba 26@ 27@ 28@ 29@
+        0AB1: @SetDrawText              parameters 20           behind_textures 10@ font 11@ linewidth 12@ position 13@ 14@ size 15@ 16@ gxt 17@ 18@ use_numbers 19@ numbers 20@ 21@ center_flag 22@ center_linewidth 12@ align_right 24@ customize_rgba 25@ font_rgba 26@ 27@ 28@ 29@
     end
     
     // Edit Control
@@ -370,7 +385,6 @@ end
 ======================================================================}
 :DisplayEditTextMenu
 0AB1: @GetInt 2 label @DrawnTextInUse offset 0 ret 4@
-
 if not 4@ == 0xFF // some drawn text is in edit mode
 then
     03E3: set_texture_to_be_drawn_antialiased 1
@@ -417,7 +431,7 @@ then
         038E: draw_box_position 186.0 438.0 size 5.0 5.0 RGBA 0 0 0 200 // Justify checkbox checked
     end
 
-    if 0AB1: @CursorClickCheck 8 box_position 186.0 438.0 box_size 8.0 8.0 hover_rgba 0 0 0 0 // Justify checkbox
+    if 0AB1: @CursorClickCheck 8 box_position 186.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 0 // Justify checkbox
     then
         0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
         7@ += 56 // justify
@@ -428,22 +442,44 @@ then
     end
     
     {======================================================================
-    // Outline
+    // Outline / Shadow
     ======================================================================}
-    6@s = 'EDTXT05' // Use outline
-    0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 314.0 433.0 size 0.2 1.0 gxt 6@ 7@
+    if 10@ == 1 // enable_outline
+    then
+        6@s = 'EDTXT05' // Use outline
+        0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 314.0 433.0 size 0.2 1.0 gxt 6@ 7@
+        
+        6@s = 'EDTXT06' // Outline: ~1~
+        0AB1: @SetDrawText 11 behind_textures 1 font 1 linewidth 600.0 position 371.0 433.0 size 0.2 1.0 gxt 6@ 7@ use_numbers 1 number 11@
+        
+        6@s = 'EDTXT07' // Outline rgba
+        0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 424.0 433.0 size 0.2 1.0 gxt 6@ 7@
+    else // enable_shadow
+        6@s = 'EDTXT18' // Use shadow
+        0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 314.0 433.0 size 0.2 1.0 gxt 6@ 7@
+        
+        6@s = 'EDTXT19' // Shadow: ~1~
+        0AB1: @SetDrawText 11 behind_textures 1 font 1 linewidth 600.0 position 371.0 433.0 size 0.2 1.0 gxt 6@ 7@ use_numbers 1 number 17@
+        
+        6@s = 'EDTXT20' // Shadow rgba
+        0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 424.0 433.0 size 0.2 1.0 gxt 6@ 7@
+    end
     
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 357.0 438.0 size 8.0 8.0 RGBA 30 126 218 180 // Outline/Shadow selector button
-
-    6@s = 'EDTXT06' // Outline: ~1~
-    0AB1: @SetDrawText 11 behind_textures 1 font 1 linewidth 600.0 position 371.0 433.0 size 0.2 1.0 gxt 6@ 7@ use_numbers 1 number 11@
-    
-    6@s = 'EDTXT07' // Outline rgba
-    0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 424.0 433.0 size 0.2 1.0 gxt 6@ 7@
     
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 475.0 438.0 size 12.0 11.0 RGBA 255 0 0 180 // Outline RGBA selector
+
+    if 0AB1: @CursorClickCheck 8 box_position 357.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 120 // Use outline/shadow selector
+    then
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 45 // enable_outline
+        if 10@ == 0
+        then 0AB1: @StoreInt 3 label @DrawnTextsSector value 1 offset 7@
+        else 0AB1: @StoreInt 3 label @DrawnTextsSector value 0 offset 7@
+        end
+    end
     
     {======================================================================
     // Background
@@ -460,7 +496,7 @@ then
         038E: draw_box_position 502.0 438.0 size 5.0 5.0 RGBA 0 0 0 200 // Background checkbox checked
     end
 
-    if 0AB1: @CursorClickCheck 8 box_position 502.0 438.0 box_size 8.0 8.0 hover_rgba 0 0 0 0 // Background checkbox
+    if 0AB1: @CursorClickCheck 8 box_position 502.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 0 // Background checkbox
     then
         0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
         7@ += 64 // center_flag
@@ -485,7 +521,7 @@ then
         038E: draw_box_position 540.0 329.0 size 5.0 5.0 RGBA 0 0 0 200 // Centered checkbox checked
     end
 
-    if 0AB1: @CursorClickCheck 8 box_position 540.0 329.0 box_size 8.0 8.0 hover_rgba 0 0 0 0 // Proportional checkbox
+    if 0AB1: @CursorClickCheck 8 box_position 540.0 329.0 box_size 12.0 12.0 hover_rgba 0 0 0 0 // Proportional checkbox
     then
         0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
         7@ += 63 // center_flag
@@ -523,6 +559,31 @@ then
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 577.0 251.0 size 32.0 12.0 RGBA 0 0 0 180
     
+    if 0AB1: @CursorPositionCheck 8 box_center 577.0 238.0 box_size 32.0 12.0 hover_rgba 0 0 0 0 // Pos X
+    then
+        if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+        then 13@ += 1.0
+        end
+        if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+        then 13@ -= 1.0
+        end        
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 6 // pos_x
+        0AB1: @StoreData 3 label @DrawnTextsSector value 13@ offset 7@
+    end
+    if 0AB1: @CursorPositionCheck 8 box_center 577.0 251.0 box_size 32.0 12.0 hover_rgba 0 0 0 0 // Pos Y
+    then
+        if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+        then 14@ += 1.0
+        end
+        if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+        then 14@ -= 1.0
+        end        
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 10 // pos_y
+        0AB1: @StoreData 3 label @DrawnTextsSector value 14@ offset 7@
+    end
+    
     {======================================================================
     // Size
     ======================================================================}
@@ -531,7 +592,7 @@ then
     6@s = 'EDTXT12' // Height
     0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 534.0 272.0 size 0.2 1.0 gxt 6@ 7@    
     
-    0AD3: 6@v = format "%.1f" 15@
+    0AD3: 6@v = format "%.2f" 15@
     0ADF: add_dynamic_GXT_entry "_DYNSZX" text 6@v
     1@s = '_DYNSZX' // %f
     0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 562.0 259.0 size 0.2 1.0 gxt 1@ 2@
@@ -546,6 +607,31 @@ then
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 577.0 277.0 size 32.0 12.0 RGBA 0 0 0 180
     
+    if 0AB1: @CursorPositionCheck 8 box_center 577.0 264.0 box_size 32.0 12.0 hover_rgba 0 0 0 0 // Width
+    then
+        if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+        then 15@ += 0.01
+        end
+        if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+        then 15@ -= 0.01
+        end        
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 14 // size_x
+        0AB1: @StoreData 3 label @DrawnTextsSector value 15@ offset 7@
+    end
+    if 0AB1: @CursorPositionCheck 8 box_center 577.0 277.0 box_size 32.0 12.0 hover_rgba 0 0 0 0 // Height
+    then
+        if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+        then 16@ += 0.1
+        end
+        if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+        then 16@ -= 0.1
+        end        
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 18 // size_y
+        0AB1: @StoreData 3 label @DrawnTextsSector value 16@ offset 7@
+    end
+    
     {======================================================================
     // GXT Entry
     ======================================================================}
@@ -556,6 +642,100 @@ then
     
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 566.0 290.0 size 32.0 12.0 RGBA 0 0 0 180
+    
+    if 0AB1: @CursorClickCheck 8 box_position 566.0 290.0 box_size 32.0 12.0 hover_rgba 0 0 0 0 // Centered checkbox
+    then
+        0AB1: @StoreInt 2 label @SubmenuInUse value 1 // EditGXT
+        0AB1: @StoreInt 2 label @TextInputCursor value 0
+        0AB1: @StoreData 3 label @GXT_String value 0 offset 0
+        0AB1: @StoreData 3 label @GXT_String value 0 offset 4
+    end
+    
+    0AB1: @GetInt 1 label @SubmenuInUse ret 5@
+    if 5@ == 1 // SubmenuInUse == Edit GXT text input
+    then
+        6@s = 'DONE' // Done
+        0AB1: @SetDrawText 9 behind_textures 1 font 1 linewidth 600.0 position 445.0 285.0 size 0.2 0.9 gxt 6@ 7@
+        
+        0AB1: @GetData 2 label @GXT_String offset 0 ret 1@
+        0AB1: @GetData 2 label @GXT_String offset 4 ret 2@
+        0AD3: 6@v = format "%s" 1@s
+        0ADF: add_dynamic_GXT_entry "_DYNGX2" text 6@v    
+        1@s = '_DYNGX2'
+        0AB1: @SetDrawText_Extra 15 enable_outline 1 outline 0 outline_rgba 0 0 0 0 customize_shadow 1 shadow_size 0 shadow_rgba 0 0 0 0 justify 0 proportional 1 background 0
+        0AB1: @SetDrawText 20 behind_textures 1 font 2 linewidth 600.0 position 475.0 284.0 size 0.2 1.0 gxt 1@ 2@ use_numbers 0 numbers 0 0 center_flag 0 center_linewidth 0 align_right 0 customize_rgba 1 font_rgba 0 0 0 255
+        
+        03E3: set_texture_to_be_drawn_antialiased 1
+        038E: draw_box_position 480.0 290.0 size 85.0 19.0 RGBA 0 0 0 180
+        03E3: set_texture_to_be_drawn_antialiased 1
+        038E: draw_box_position 495.0 290.0 size 46.0 11.0 RGBA 255 255 255 250
+        
+        0AB1: @GetInt 1 label @SubmenuGXTTextInput_Stat ret 30@
+        if 30@ == 0
+        then
+            for 6@ = 48 to 90 // 0 to 9 and a-A to z-Z
+                if 0AB0:   key_pressed 6@
+                then
+                    0AB1: @GetInt 1 label @TextInputCursor value 7@
+                    if 7@ < 7
+                    then 0AB1: @StoreInt_IncOffset 3 label @GXT_String value 6@ offset 7@ ret 7@
+                    end
+                    0AB1: @StoreInt 2 label @TextInputCursor value 7@
+                    0AB1: @StoreInt 2 label @SubmenuGXTTextInput_LastKeyPressed value 6@
+                    30@ = 1
+                end
+            end
+            if 0AB0:   key_pressed 8 // backspace
+            then
+                0AB1: @GetInt 1 label @TextInputCursor value 7@
+                7@ -= 1
+                if 7@ >= 0
+                then 0AB1: @StoreInt 3 label @GXT_String value 0 offset 7@
+                else 7@ = 0
+                end
+                0AB1: @StoreInt 2 label @TextInputCursor value 7@
+                0AB1: @StoreInt 2 label @SubmenuGXTTextInput_LastKeyPressed value 8
+                30@ = 1
+            end
+            5@ = 0
+            if 0AB0:   key_pressed 0xd // enter
+            then 5@ = 1
+            end
+            if 0AB1: @CursorClickCheck 8 box_position 454.0 290.0 box_size 29.0 15.0 hover_rgba 0 0 0 180 // Done
+            then 5@ = 1
+            end
+            if 5@ == 1
+            then
+                0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+                7@ += 22 // Gxt entry
+                0AB1: @GetData 2 label @GXT_String offset 0 ret 1@
+                0AB1: @GetData 2 label @GXT_String offset 4 ret 2@
+                if 1@s == ''
+                then 1@s = 'NEWTEXT'
+                end
+                0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 1@ offset 7@ ret 7@
+                0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 2@ offset 7@ ret 7@
+                30@ = 2
+            end
+        end
+        if 30@ == 1
+        then
+            0AB1: @GetInt 1 label @SubmenuGXTTextInput_LastKeyPressed value 6@
+            if 8AB0:   not key_pressed 6@
+            then 30@ = 0
+            end
+        end
+        if 30@ == 2
+        then
+            0AB1: @GetInt 1 label @SubmenuGXTTextInput_LastKeyPressed value 6@
+            if 8AB0:   not key_pressed 0xd
+            then
+                0AB1: @StoreInt 2 label @SubmenuInUse value 0 // Close submenu
+                30@ = 0
+            end
+        end
+        0AB1: @StoreInt 2 label @SubmenuGXTTextInput_Stat value 30@
+    end
     
     {======================================================================
     // Numbers for GXT entry
@@ -590,7 +770,7 @@ then
         038E: draw_box_position 68.0 438.0 size 5.0 5.0 RGBA 0 0 0 200 // Centered checkbox checked
     end
 
-    if 0AB1: @CursorClickCheck 8 box_position 68.0 438.0 box_size 8.0 8.0 hover_rgba 0 0 0 0 // Centered checkbox
+    if 0AB1: @CursorClickCheck 8 box_position 68.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 0 // Centered checkbox
     then
         0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
         7@ += 39 // center_flag
@@ -615,7 +795,7 @@ then
         038E: draw_box_position 124.0 438.0 size 5.0 5.0 RGBA 0 0 0 200 // Align right checkbox checked
     end
 
-    if 0AB1: @CursorClickCheck 8 box_position 124.0 438.0 box_size 8.0 8.0 hover_rgba 0 0 0 0 // Align right checkbox
+    if 0AB1: @CursorClickCheck 8 box_position 124.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 0 // Align right checkbox
     then
         0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
         7@ += 44 // center_flag
@@ -636,8 +816,30 @@ then
     
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 277.0 438.0 size 24.0 12.0 RGBA 0 0 0 180
+    
+    if 0AB1: @CursorPositionCheck 8 box_center 277.0 438.0 box_size 24.0 12.0 hover_rgba 0 0 0 0 // Linewidth
+    then
+        if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+        then 12@ += 1.0
+        end
+        if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+        then 12@ -= 1.0
+        end        
+        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+        7@ += 2 // linewidth
+        0AB1: @StoreData 3 label @DrawnTextsSector value 12@ offset 7@
+    end
 end
 0AB2: ret 0
+
+:SubmenuGXTTextInput_Stat
+hex
+00
+end
+:SubmenuGXTTextInput_LastKeyPressed
+hex
+00
+end
 
 {======================================================================
 ======================================================================}

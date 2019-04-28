@@ -204,6 +204,7 @@ then
     0AB1: @StoreInt 3 array_label @CursorControl_Buttons value 1 item_offset 8@
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 0@ 1@ size 2@ 3@ RGBA 4@ 5@ 6@ 7@
+    0485:  return_true
 else
     0AB1: @StoreInt 3 array_label @CursorControl_Buttons value 0 item_offset 8@
     for 8@ = 0 to 119
@@ -215,6 +216,7 @@ else
         then 0AB1: @StoreInt 3 @CursorControlVars value CURSOR_ARROW offset CC_ICON
         end
     end
+    059A:  return_false
 end
 0AB2: ret 0
 

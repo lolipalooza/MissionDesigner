@@ -10,6 +10,7 @@ SYMB3	-
 SYMB4	X
 INTNM	~1~
 FLOAT	~1~.~1~
+DONE	Done
 
 MSBUILD	Mision Builder
 INTDES	Interface Designer
@@ -48,3 +49,8 @@ EDTXT14	Use numbers
 EDTXT15	Font RGBA
 EDTXT16	Proportional
 EDTXT17	Delete
+EDTXT18	Use shadow
+EDTXT19	Shadow: ~1~
+EDTXT20	Shadow rgba
+
+TEST	Any community that gets its laught by pretending to be idiots will be eventually flooded by actual idiots mistakenly believed they're in good company.

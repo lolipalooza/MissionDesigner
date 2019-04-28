@@ -12,6 +12,12 @@ gosub @DesignerMain
 {======================================================================
 ======================================================================}
 const
+    PAD_CHANGE_CAMERA_VIEW = 13
+    PAD_ANSWER_PHONE = 4
+    PAD_PREV_WEP_ZOOM_IN = 5
+    PAD_NEXT_WEP_ZOOM_OUT = 7
+    PAD_ENTER_VEHICLE = 15
+    PAD_SPRINT = 16
     PAD_FIREWEAPON = 17
 end
 
@@ -51,7 +57,7 @@ until false
 
 repeat
 wait 0
-until 80E1:   not player 0 pressed_key 15 and 80E1:   not player 0 pressed_key 17
+until 80E1:   not player 0 pressed_key PAD_ENTER_VEHICLE and 80E1:   not player 0 pressed_key PAD_FIREWEAPON
 
 // Finalize
 0581: enable_radar 1
@@ -94,7 +100,7 @@ then
     end
     if or
     11@ == 5
-    00E1:   player 0 pressed_key 15 // F
+    00E1:   player 0 pressed_key PAD_ENTER_VEHICLE // F
     then
         0485:  return_true
         return
@@ -126,11 +132,11 @@ then
     end
     if or
     11@ == 1
-    00E1:   player 0 pressed_key 15 // F
+    00E1:   player 0 pressed_key PAD_ENTER_VEHICLE // F
     then
         repeat
         wait 0
-        until 80E1:   not player 0 pressed_key 15 // F
+        until 80E1:   not player 0 pressed_key PAD_ENTER_VEHICLE // F
         10@ = 0 // Return to Main Menu
     end
 end
@@ -148,6 +154,8 @@ end
 ======================================================================}
 if 10@ == 5 // Create interface Menu
 then
+    0AB1: @GetInt 1 label @SubmenuInUse ret 5@
+
     0AB1: @CreateInterfaceMenu_Show 0 ret clicked_button 11@    
     0AB1: @DisplayEditTextMenu 0
     0AB1: @DisplayDrawnTexts 0
@@ -176,15 +184,18 @@ then
     if 11@ == 8
     then 0AD0: show_formatted_text_lowpriority "Export plain text. Not ready yet..." time 750
     end
-    if or
-    11@ == 1
-    00E1:   player 0 pressed_key 15 // F
+    if 5@ == 0
     then
-        repeat
-        wait 0
-        until 80E1:   not player 0 pressed_key 15 // F
-        10@ = 2 // Return to Interface Designer Menu
-        0AB1: @StoreInt 3 label @DrawnTextInUse value 0xFF offset 0 // Exit edit mode
+        if or
+        11@ == 1
+        00E1:   player 0 pressed_key PAD_ENTER_VEHICLE // F
+        then
+            repeat
+            wait 0
+            until 80E1:   not player 0 pressed_key PAD_ENTER_VEHICLE // F
+            10@ = 2 // Return to Interface Designer Menu
+            0AB1: @StoreInt 3 label @DrawnTextInUse value 0xFF offset 0 // Exit edit mode
+        end
     end
 end
 
