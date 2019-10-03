@@ -153,10 +153,10 @@ end
 0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 1               int32
 0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // number 2               int32
 0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // center_flag            flag
-0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 600.0 offset 11@ ret 11@ // center_linewidth       float
+0AB1: @StoreData_IncOffset 3 label @DrawnTextsSector value 600.0 offset 11@ ret 11@ // center_linewidth       float         not used
 0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // align_right            flag
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // enable_outline         flag
-0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_size           int8
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // enable_outline         flag
+0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   1   offset 11@ ret 11@ // outline_size           int8
 0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_red            int8
 0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_green          int8
 0AB1: @StoreInt_IncOffset  3 label @DrawnTextsSector value   0   offset 11@ ret 11@ // outline_blue           int8
@@ -466,21 +466,62 @@ then
     end
     
     03E3: set_texture_to_be_drawn_antialiased 1
-    038E: draw_box_position 357.0 438.0 size 8.0 8.0 RGBA 30 126 218 180 // Outline/Shadow selector button
+    038E: draw_box_position 359.0 438.0 size 8.0 8.0 RGBA 30 126 218 180 // Outline/Shadow selector button
     
     03E3: set_texture_to_be_drawn_antialiased 1
     038E: draw_box_position 475.0 438.0 size 12.0 11.0 RGBA 255 0 0 180 // Outline RGBA selector
 
-    if 0AB1: @CursorClickCheck 8 box_position 357.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 120 // Use outline/shadow selector
+    if 0AB1: @CursorClickCheck 8 box_position 359.0 438.0 box_size 12.0 12.0 hover_rgba 0 0 0 120 // Use outline/shadow selector
     then
-        0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
-        7@ += 45 // enable_outline
         if 10@ == 0
-        then 0AB1: @StoreInt 3 label @DrawnTextsSector value 1 offset 7@
-        else 0AB1: @StoreInt 3 label @DrawnTextsSector value 0 offset 7@
+        then
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 45 // enable_outline
+            0AB1: @StoreInt 3 label @DrawnTextsSector value 1 offset 7@
+            
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 57 // customize_shadow
+            0AB1: @StoreInt 3 label @DrawnTextsSector value 0 offset 7@
+        else
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 45 // enable_outline
+            0AB1: @StoreInt 3 label @DrawnTextsSector value 0 offset 7@
+            
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 57 // customize_shadow
+            0AB1: @StoreInt 3 label @DrawnTextsSector value 1 offset 7@
         end
     end
     
+    if 0AB1: @CursorPositionCheck 8 box_center 389.0 438.0 box_size 38.0 12.0 hover_rgba 0 0 0 180 // size
+    then
+        if 10@ == 1 // enable_outline
+        then
+            if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+            then 11@ += 1
+            end
+            if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+            then 11@ -= 1
+            end        
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 58 // shadow_size
+            0AB1: @StoreData 3 label @DrawnTextsSector value 0 offset 7@
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 46 // outline_size
+            0AB1: @StoreData 3 label @DrawnTextsSector value 11@ offset 7@
+        else
+            if 00E1:   player 0 pressed_key PAD_PREV_WEP_ZOOM_IN // +
+            then 17@ += 1
+            end
+            if 00E1:   player 0 pressed_key PAD_NEXT_WEP_ZOOM_OUT // -
+            then 17@ -= 1
+            end        
+            0AB1: @GetOffsetFromIndex 1 index 4@ ret 7@
+            7@ += 58 // shadow_size
+            0AB1: @StoreData 3 label @DrawnTextsSector value 17@ offset 7@
+        end
+    end
+
     {======================================================================
     // Background
     ======================================================================}
