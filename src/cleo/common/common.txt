@@ -102,7 +102,7 @@ end
 
 {======================================================================
 ======================================================================}
-:SetDrawText2 // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_numbers 8@ numbers 9@ 10@ center 11@ center_linewidth 12@ align_right 13@ enable_outline 14@ outline 15@ outline_rgba 16@ 17@ 18@ 19@ customize_rgba 20@ rgba 21@ 22@ 23@ 24@ customize_shadow 25@ shadow_size 26@ shadow_rgba 27@ 28@ 29@ 30@ background 30@
+:SetDrawText2 // font 0@ linewidth 1@ position 2@ 3@ size 4@ 5@ gxt 6@ 7@ use_numbers 8@ numbers 9@ 10@ center 11@ center_linewidth 12@ align_right 13@ enable_outline 14@ outline 15@ outline_rgba 16@ 17@ 18@ 19@ customize_rgba 20@ rgba 21@ 22@ 23@ 24@ customize_shadow 25@ shadow_size 26@ shadow_rgba 27@ 28@ 29@ 30@ background 31@
 03E0: draw_text_behind_textures 1
 0345: enable_text_draw_background 31@
 if 20@ == 1
